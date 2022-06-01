@@ -17,22 +17,25 @@ public abstract class PersonReportGenerator {
 
     private void generateReport(List<Person> persons) {
         try(BufferedWriter writer = new BufferedWriter(new FileWriter("output.txt"))){
-            List<String> under30 = new ArrayList<>();
-            List<String> under60 = new ArrayList<>();
-            List<String> over60 = new ArrayList<>();
-            for (Person person:persons){
-                String name = "%s %s".formatted(person.fName(),person.lName());
-                if(person.age() <= 30){
-                    under30.add(name);
-                }else if(person.age() > 30 && person.age() <= 50){
-                    under60.add(name);
-                }else{
-                    over60.add(name);
-                }
+//            List<String> under30 = new ArrayList<>();
+//            List<String> under60 = new ArrayList<>();
+//            List<String> over60 = new ArrayList<>();
+            for(AgeInterval interval: AgeInterval.values()){
+                writeLine(writer, interval.getLabel(), interval.getPersonsNames(persons));
             }
-            writeLine(writer, "1-30", String.join(",",under30));
-            writeLine(writer, "30-50", String.join(",",under60));
-            writeLine(writer, "50+", String.join(",",over60));
+//            for (Person person:persons){
+//                String name = "%s %s".formatted(person.fName(),person.lName());
+//                if(person.age() <= 30){
+//                    under30.add(name);
+//                }else if(person.age() > 30 && person.age() <= 50){
+//                    under60.add(name);
+//                }else{
+//                    over60.add(name);
+//                }
+//            }
+//            writeLine(writer, "1-30", String.join(",",under30));
+//            writeLine(writer, "30-50", String.join(",",under60));
+//            writeLine(writer, "50+", String.join(",",over60));
 
         } catch (IOException e) {
             throw new RuntimeException(e);
